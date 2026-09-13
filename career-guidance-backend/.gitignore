@@ -1,0 +1,10 @@
+node_modules/
+.env
+*.log
+# Ignore entire uploads directory
+uploads/
+
+# Ignore any specific resume/document formats in case they are stored elsewhere
+*.pdf
+*.docx
+*.doc
