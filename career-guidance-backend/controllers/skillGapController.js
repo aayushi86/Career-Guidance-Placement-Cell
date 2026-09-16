@@ -84,10 +84,17 @@ const analyzeSkillGap = async (req, res) => {
       (r) => r.toLowerCase() === (rawRole || "").toLowerCase().trim()
     );
 
-    if (!targetRole) {
+    if (!targetRole && rawRole) {
       targetRole = availableRoles.find(
-        (r) => (rawRole || "").toLowerCase().includes(r.toLowerCase())
-      ) || "Software Developer";
+        (r) => (rawRole || "").toLowerCase().includes(r.toLowerCase()) || r.toLowerCase().includes((rawRole || "").toLowerCase())
+      );
+    }
+
+    if (!targetRole) {
+      return res.status(400).json({
+        success: false,
+        message: "Please select a valid career role.",
+      });
     }
 
     const userId = req.user?._id || req.user?.id;

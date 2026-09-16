@@ -34,14 +34,18 @@ export default function Jobs() {
     try {
       const user = JSON.parse(localStorage.getItem("user")) || {};
       const storedResults = JSON.parse(localStorage.getItem("careerResult") || "{}");
+      const targetDomain = storedResults.targetDomain || storedResults.topDomain || user.targetDomain || null;
+      const targetRole = storedResults.targetRole || storedResults.topRecommendation || user.targetRole || null;
+      const score = storedResults.score || storedResults.overallMatchScore || null;
+
       return {
-        name: user.name || "Student",
-        score: storedResults.score || storedResults.overallMatchScore || 85,
-        targetDomain: storedResults.topDomain || "Software Development / IT",
-        targetRole: storedResults.topRecommendation || user.targetRole || "Software Developer",
+        name: user.name || "",
+        score,
+        targetDomain,
+        targetRole,
       };
     } catch {
-      return { name: "Student", score: 85, targetDomain: "Software Development / IT", targetRole: "Software Developer" };
+      return { name: "", score: null, targetDomain: null, targetRole: null };
     }
   })();
 
@@ -172,14 +176,18 @@ export default function Jobs() {
         {/* Career Target Banner */}
         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-indigo-500/30 border border-indigo-400/40 flex items-center justify-center font-black text-indigo-300 text-xl shadow-inner">
-            {studentProfile.score}%
+            {studentProfile.score ? `${studentProfile.score}%` : "--"}
           </div>
           <div>
             <p className="text-xs font-bold text-white">Target Career Path</p>
-            <p className="text-xs text-blue-300 font-bold">{studentProfile.targetRole}</p>
-            <p className="text-[11px] text-emerald-300 font-semibold flex items-center gap-1 mt-0.5">
-              <FaCheckCircle className="text-emerald-400" /> {studentProfile.targetDomain}
+            <p className="text-xs text-blue-300 font-bold">
+              {studentProfile.targetRole || "Complete your Career Test to personalize job matching."}
             </p>
+            {studentProfile.targetDomain && (
+              <p className="text-[11px] text-emerald-300 font-semibold flex items-center gap-1 mt-0.5">
+                <FaCheckCircle className="text-emerald-400" /> {studentProfile.targetDomain}
+              </p>
+            )}
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ const jobSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true },
     company: { type: String, required: true, trim: true },
-    domain: { type: String, default: "Software Development / IT" },
+    domain: { type: String, default: "General" },
     careerRole: { type: String, default: "" },
     location: { type: String, default: "Mumbai / Hybrid" },
     jobType: { type: String, default: "Full-time", enum: ["Full-time", "Internship", "Remote"] },
@@ -13,20 +13,20 @@ const jobSchema = new mongoose.Schema(
     vacancies: { type: Number, default: 1 },
     
     // Compensation Details
-    ctcPackage: { type: String, default: "10-14 LPA" },
-    baseSalary: { type: String, default: "8.5 LPA" },
-    joiningBonus: { type: String, default: "1.5 LPA" },
+    ctcPackage: { type: String, default: "6-10 LPA" },
+    baseSalary: { type: String, default: "5.5 LPA" },
+    joiningBonus: { type: String, default: "1 LPA" },
 
     // Institutional Eligibility Requirements
     minAssessmentScore: { type: Number, default: 75 },
-    minCgpa: { type: Number, default: 7.0 },
+    minCgpa: { type: Number, default: 6.5 },
     eligibleBranches: {
       type: [String],
-      default: ["B.Sc IT", "B.Tech CSE", "B.Sc CS", "MCA", "Data Science", "B.Com", "BBA", "MBA", "Any Discipline"],
+      default: ["Any Discipline"],
     },
     requiredSkills: {
       type: [String],
-      default: ["Python", "SQL", "JavaScript"],
+      default: [],
     },
 
     // Recruitment Process Steps & Content

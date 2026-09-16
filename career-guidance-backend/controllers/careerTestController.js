@@ -94,6 +94,7 @@ const submitCareerTest = async (req, res) => {
           skills,
           interests,
           degree: education,
+          targetDomain: topDomain,
           targetRole: topCareer.career,
           readinessScore: topCareer.score,
           careerTestDone: true,

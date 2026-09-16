@@ -62,7 +62,7 @@ export default function CareerRoadmap() {
         savedResult.career ||
         savedResult.targetRole ||
         rawUser.targetRole ||
-        "Data Scientist";
+        "";
 
       const initDomain =
         savedResult.topDomain ||

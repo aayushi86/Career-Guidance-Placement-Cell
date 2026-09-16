@@ -54,7 +54,7 @@ const getStudentProfileData = async (user) => {
     studentProfile?.degree ||
     studentProfile?.education ||
     careerTest?.education ||
-    "B.Sc IT / B.Tech CSE"
+    "Undergraduate / Graduate"
   ).trim();
 
   // Target Role / Recommended Career & Domain
@@ -64,7 +64,7 @@ const getStudentProfileData = async (user) => {
     careerTest?.topRecommendation ||
     resumeAnalysis?.targetRole ||
     roadmap?.targetRole ||
-    "Software Developer"
+    "General Career Profile"
   ).trim();
 
   const targetDomain = getDomainForRole(targetRole);

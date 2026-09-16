@@ -14,7 +14,7 @@ const careerTestSchema = new mongoose.Schema(
     },
     education: {
       type: String,
-      default: "B.Sc IT",
+      default: "Undergraduate / Graduate",
     },
     preferredWorkStyle: {
       type: String,
@@ -34,11 +34,11 @@ const careerTestSchema = new mongoose.Schema(
     },
     recommendedCareer: {
       type: String,
-      default: "Software Developer",
+      default: "",
     },
     topRecommendation: {
       type: String,
-      default: "Software Developer",
+      default: "",
     },
     reason: {
       type: String,

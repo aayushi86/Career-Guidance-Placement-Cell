@@ -5,6 +5,7 @@ const Notification = require("../models/Notification");
 const User = require("../models/User");
 const Student = require("../models/Student");
 const ResumeAnalysis = require("../models/ResumeAnalysis");
+const { getDomainForRole, getRoleSkillRequirements } = require("../config/careerDomains");
 
 // Helper to get all job IDs legitimately owned by the authenticated recruiter
 const getRecruiterJobIds = async (user) => {
@@ -219,6 +220,8 @@ const postJob = async (req, res) => {
     const {
       title,
       company,
+      domain: inputDomain,
+      careerRole: inputRole,
       description,
       location,
       salary,
@@ -243,29 +246,43 @@ const postJob = async (req, res) => {
       });
     }
 
-    const cleanSkills = requiredSkills || skillsRequired || [];
-    const skillsList = Array.isArray(cleanSkills)
+    const jobRole = inputRole || targetCareer || title.trim();
+    const jobDomain = inputDomain || getDomainForRole(jobRole) || "General";
+
+    const cleanSkills = requiredSkills || skillsRequired;
+    let skillsList = Array.isArray(cleanSkills)
       ? cleanSkills
-      : cleanSkills ? cleanSkills.split(",").map((s) => s.trim()).filter(Boolean) : ["Python", "SQL"];
+      : typeof cleanSkills === "string" && cleanSkills.trim()
+      ? cleanSkills.split(",").map((s) => s.trim()).filter(Boolean)
+      : [];
+
+    if (skillsList.length === 0) {
+      const roleReqs = getRoleSkillRequirements(jobRole);
+      skillsList = [...(roleReqs.coreSkills || []), ...(roleReqs.technicalSkills || [])];
+    }
 
     const branches = Array.isArray(eligibleBranches)
       ? eligibleBranches
-      : eligibleBranches ? eligibleBranches.split(",").map((b) => b.trim()).filter(Boolean) : ["B.Sc IT", "B.Tech CSE", "MCA"];
+      : typeof eligibleBranches === "string" && eligibleBranches.trim()
+      ? eligibleBranches.split(",").map((b) => b.trim()).filter(Boolean)
+      : ["Any Discipline"];
 
     const newJob = await Job.create({
       title: title.trim(),
       company: (company || req.user.company || "Corporate Partner").trim(),
+      domain: jobDomain,
+      careerRole: jobRole,
       description: description || "Seeking qualified candidates for campus placement.",
       location: location || "Mumbai / Hybrid",
       jobType: jobType || "Full-time",
-      ctcPackage: ctcPackage || salary || "10-14 LPA",
-      baseSalary: baseSalary || "8.5 LPA",
-      joiningBonus: joiningBonus || "1.5 LPA",
+      ctcPackage: ctcPackage || salary || "6-10 LPA",
+      baseSalary: baseSalary || "5.5 LPA",
+      joiningBonus: joiningBonus || "1 LPA",
       minAssessmentScore: Number(minAssessmentScore) || 75,
-      minCgpa: Number(minCgpa) || 7.0,
+      minCgpa: Number(minCgpa) || 6.5,
       eligibleBranches: branches,
       requiredSkills: skillsList,
-      selectionProcess: selectionProcess || ["AI Skill Screening", "Online Coding Round", "Technical Interview", "HR Discussion"],
+      selectionProcess: selectionProcess || ["Skill Assessment", "Technical Interview", "HR Discussion"],
       deadline: deadline ? new Date(deadline) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       postedBy: req.user.email,
       recruiterEmail: req.user.email.toLowerCase().trim(),

@@ -38,12 +38,12 @@ export default function RecruiterDashboard() {
   const [jnfForm, setJnfForm] = useState({
     company: user?.company || "",
     title: "",
-    domain: "Software Development / IT",
-    ctcPackage: "12-16 LPA",
+    domain: "",
+    ctcPackage: "6 - 10 LPA",
     minAssessmentScore: 75,
-    minCgpa: 7.0,
-    eligibleBranches: "B.Sc IT, B.Tech CSE, MCA",
-    requiredSkills: "Python, SQL, React",
+    minCgpa: 6.5,
+    eligibleBranches: "Computer Engineering, IT, AI & Data Science, B.Com, BBA",
+    requiredSkills: "Data Analysis, Communication, Problem Solving",
     description: "",
   });
 
@@ -70,16 +70,16 @@ export default function RecruiterDashboard() {
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
       const [dashRes, jobsRes, appRes] = await Promise.all([
-        axios.get(`${API_URL}/api/recruiter/dashboard`, { headers }).catch(() => null),
+        recruiterApi.getDashboard().catch(() => null),
         recruiterApi.getJobs().catch(() => null),
         recruiterApi.getApplications(selectedJobFilter).catch(() => null),
       ]);
 
-      if (dashRes?.data?.verificationStatus) {
-        setVerificationStatus(dashRes.data.verificationStatus);
+      if (dashRes?.verificationStatus || dashRes?.data?.verificationStatus) {
+        setVerificationStatus(dashRes.verificationStatus || dashRes.data.verificationStatus);
       }
-      if (dashRes?.data?.stats) {
-        setStats(dashRes.data.stats);
+      if (dashRes?.stats || dashRes?.data?.stats) {
+        setStats(dashRes.stats || dashRes.data.stats);
       }
       if (jobsRes?.success && Array.isArray(jobsRes.jobs)) {
         setJobs(jobsRes.jobs);
@@ -180,11 +180,12 @@ export default function RecruiterDashboard() {
         setJnfForm({
           company: user?.company || "",
           title: "",
-          ctcPackage: "12-16 LPA",
+          domain: "",
+          ctcPackage: "6 - 10 LPA",
           minAssessmentScore: 75,
-          minCgpa: 7.0,
-          eligibleBranches: "B.Sc IT, B.Tech CSE, MCA",
-          requiredSkills: "Python, SQL, React",
+          minCgpa: 6.5,
+          eligibleBranches: "Computer Engineering, IT, AI & Data Science, B.Com, BBA",
+          requiredSkills: "Data Analysis, Communication, Problem Solving",
           description: "",
         });
         fetchDashboardData();

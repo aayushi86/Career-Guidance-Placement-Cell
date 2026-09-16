@@ -39,11 +39,7 @@ app.use(
       ) {
         return callback(null, true);
       }
-      // If configured via env or same-origin
-      if (process.env.FRONTEND_URL && cleanOrigin === process.env.FRONTEND_URL.replace(/\/+$/, "")) {
-        return callback(null, true);
-      }
-      return callback(null, true); // Safely reflect origin for temporary tunnel access while preserving JWT Authorization headers
+      return callback(null, false);
     },
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],

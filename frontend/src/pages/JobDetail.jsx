@@ -290,7 +290,7 @@ export default function JobDetail() {
                 <span className="text-emerald-600 font-bold">✓</span> Cutoff Score: {job.minAssessmentScore || 75}% Assessment
               </li>
               <li className="flex items-center gap-2 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-                <span className="text-emerald-600 font-bold">✓</span> Eligible Branches: {job.eligibleBranches?.join(", ") || "B.Sc IT, B.Tech CSE"}
+                <span className="text-emerald-600 font-bold">✓</span> Eligible Branches: {job.eligibleBranches?.join(", ") || "Any Discipline"}
               </li>
               <li className="flex items-center gap-2 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
                 <span className="text-emerald-600 font-bold">✓</span> Direct Placement Interview Drive
@@ -311,8 +311,8 @@ export default function JobDetail() {
           <div className="space-y-3 pt-2">
             <h3 className="text-base font-black text-slate-900">Eligibility Criteria & Qualifications</h3>
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-2 text-xs text-slate-700">
-              <p><strong className="text-slate-900">Minimum CGPA:</strong> {job.minCgpa || 7.0} CGPA</p>
-              <p><strong className="text-slate-900">Eligible Streams:</strong> {job.eligibleBranches?.join(", ") || "B.Sc IT, B.Tech CSE, MCA"}</p>
+              <p><strong className="text-slate-900">Minimum CGPA:</strong> {job.minCgpa || 6.5} CGPA</p>
+              <p><strong className="text-slate-900">Eligible Streams:</strong> {job.eligibleBranches?.join(", ") || "Any Discipline"}</p>
               <p><strong className="text-slate-900">Selection Process:</strong> {job.selectionProcess?.join(" → ") || "AI Skill Screening → Technical Interview → HR Discussion"}</p>
             </div>
           </div>
