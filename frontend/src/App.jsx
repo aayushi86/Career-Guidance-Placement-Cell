@@ -17,6 +17,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AICareerAssistant from "./pages/AICareerAssistant";
 import InterviewPrep from "./pages/InterviewPrep";
 import CareerRoadmap from "./pages/CareerRoadmap";
+import About from "./pages/About";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 
 export default function App() {
   return (
@@ -35,6 +38,9 @@ export default function App() {
           <Route path="/resume-analyzer" element={<ResumeAnalyzer />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/ai-assistant" element={<AICareerAssistant />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
 
           {/* ================= STUDENT ROUTES (PROTECTED) ================= */}
           <Route

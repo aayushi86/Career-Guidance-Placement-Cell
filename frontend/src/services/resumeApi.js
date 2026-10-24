@@ -23,6 +23,6 @@ export const resumeApi = {
         );
       }
 
-      return data;
-    }),
+    });
+  },
 };

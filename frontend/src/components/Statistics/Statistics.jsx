@@ -55,7 +55,7 @@ function Statistics() {
         <div className="mx-auto mb-16 max-w-4xl text-center">
 
           <span className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">
-            Our Impact
+            OUR IMPACT
           </span>
 
           <h2 className="mt-3 text-4xl font-bold text-slate-900 md:text-5xl">
@@ -143,6 +143,13 @@ function Statistics() {
             );
           })}
 
+        </div>
+
+        {/* Data Integrity Note */}
+        <div className="mt-10 text-center">
+          <p className="inline-block rounded-full bg-slate-100 px-4 py-1.5 text-xs font-medium text-slate-500 border border-slate-200">
+            * Note: Statistics shown above are illustrative platform metrics highlighting CareerAI guidance capabilities.
+          </p>
         </div>
       </div>
     </section>
