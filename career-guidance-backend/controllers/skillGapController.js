@@ -9,7 +9,7 @@ const {
 } = require("../config/careerDomains");
 const CareerRoadmap = require("../models/CareerRoadmap");
 const Student = require("../models/Student");
-const { generateAIResponse } = require("../services/huggingfaceService");
+const { generateAIResponse } = require("../services/aiProvider");
 
 const normalizeSkill = (skill = "") =>
   skill

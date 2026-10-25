@@ -1,4 +1,4 @@
-const { generateAIResponse } = require("../services/huggingfaceService");
+const { generateAIResponse } = require("../services/aiProvider");
 const { getStudentProfileData } = require("../services/jobMatchingService");
 const { getDomainForRole } = require("../config/careerDomains");
 

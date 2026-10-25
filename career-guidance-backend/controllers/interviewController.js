@@ -1,6 +1,6 @@
 const MockInterview = require("../models/MockInterview");
 const CareerRoadmap = require("../models/CareerRoadmap");
-const { generateAIResponse } = require("../services/huggingfaceService");
+const { generateAIResponse } = require("../services/aiProvider");
 
 // ==========================================
 // GENERATE AI MOCK INTERVIEW QUESTIONS

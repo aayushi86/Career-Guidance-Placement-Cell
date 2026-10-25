@@ -2,7 +2,7 @@ const pdfParse = require("pdf-parse");
 const Tesseract = require("tesseract.js");
 const User = require("../models/User");
 const ResumeAnalysis = require("../models/ResumeAnalysis");
-const { generateAIResponse } = require("../services/huggingfaceService");
+const { generateAIResponse } = require("../services/aiProvider");
 const { getDomainForRole, getRoleSkillRequirements } = require("../config/careerDomains");
 
 // ==========================================
