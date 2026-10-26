@@ -16,8 +16,9 @@ connectDB();
 // ==========================================
 // MIDDLEWARE
 // ==========================================
-// Allowed development origins and explicitly configured public frontend origin
+// Allowed development origins and explicitly configured public frontend origins
 const allowedOrigins = [
+  "https://career-guidance-placement-cell.vercel.app",
   "http://localhost:5173",
   "http://localhost:3000",
   "http://127.0.0.1:5173",
@@ -30,7 +31,9 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps, curl, Postman, or server-to-server)
       if (!origin) return callback(null, true);
+      
       const cleanOrigin = origin.replace(/\/+$/, "");
       if (
         allowedOrigins.includes(cleanOrigin) ||
@@ -39,6 +42,8 @@ app.use(
       ) {
         return callback(null, true);
       }
+      
+      // Pass false instead of an Error to avoid 500 crashes on blocked requests
       return callback(null, false);
     },
     credentials: true,
@@ -53,6 +58,18 @@ app.use(express.urlencoded({ extended: true }));
 // ==========================================
 // ROUTES
 // ==========================================
+
+// Health Check & Test Routes
+app.get("/", (req, res) => {
+  res.send("Career Guidance API is running 🚀");
+});
+
+app.get("/api/test", (req, res) => {
+  res.json({
+    success: true,
+    message: "Career Guidance API is working"
+  });
+});
 
 // Authentication
 app.use("/api/auth", require("./routes/authRoutes"));
@@ -96,6 +113,7 @@ app.use("/api/assistant", require("./routes/assistantRoutes"));
 
 // Interview Preparation
 app.use("/api/interviews", require("./routes/interviewRoutes"));
+
 // ==========================================
 // SERVER INITIALIZATION
 // ==========================================
