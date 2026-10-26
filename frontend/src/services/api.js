@@ -28,6 +28,21 @@ function getStoredToken() {
   return null;
 }
 
+/**
+ * Clears all auth-related keys from localStorage.
+ * Called automatically when the server returns 401 with an expired/invalid token
+ * so the user is redirected to login on the next protected route visit instead of
+ * getting an infinite 401 loop.
+ */
+function clearStoredAuth() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  localStorage.removeItem("career_token");
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("jwt");
+  localStorage.removeItem("authUser");
+}
+
 export async function request(endpoint, options = {}) {
   const token = getStoredToken();
 
@@ -49,6 +64,14 @@ export async function request(endpoint, options = {}) {
   const data = await response.json();
 
   if (!response.ok) {
+    // Auto-clear stale / expired tokens so the user lands on the login screen
+    // rather than silently looping on 401 errors.
+    if (response.status === 401) {
+      const msg = (data.message || "").toLowerCase();
+      if (msg.includes("expired") || msg.includes("invalid")) {
+        clearStoredAuth();
+      }
+    }
     throw new Error(data.message || `Request failed with status ${response.status}`);
   }
 
