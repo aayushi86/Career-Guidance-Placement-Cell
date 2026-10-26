@@ -28,29 +28,31 @@ const allowedOrigins = [
   ...(process.env.PUBLIC_FRONTEND_URL ? [process.env.PUBLIC_FRONTEND_URL.replace(/\/+$/, "")] : []),
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps, curl, Postman, or server-to-server)
-      if (!origin) return callback(null, true);
-      
-      const cleanOrigin = origin.replace(/\/+$/, "");
-      if (
-        allowedOrigins.includes(cleanOrigin) ||
-        cleanOrigin.startsWith("http://localhost:") ||
-        cleanOrigin.startsWith("http://127.0.0.1:")
-      ) {
-        return callback(null, true);
-      }
-      
-      // Pass false instead of an Error to avoid 500 crashes on blocked requests
-      return callback(null, false);
-    },
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  })
-);
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, Postman, or server-to-server)
+    if (!origin) return callback(null, true);
+    
+    const cleanOrigin = origin.replace(/\/+$/, "");
+    if (
+      allowedOrigins.includes(cleanOrigin) ||
+      cleanOrigin.startsWith("http://localhost:") ||
+      cleanOrigin.startsWith("http://127.0.0.1:")
+    ) {
+      return callback(null, true);
+    }
+    
+    // Log blocked origins for easy debugging and return false safely without crashing
+    console.error("CORS blocked origin:", origin);
+    return callback(null, false);
+  },
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+};
+
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

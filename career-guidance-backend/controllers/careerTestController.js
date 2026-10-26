@@ -101,7 +101,7 @@ const submitCareerTest = async (req, res) => {
           latestTestId: savedTest._id,
         },
       },
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: "after" }
     );
 
     return res.status(201).json({
