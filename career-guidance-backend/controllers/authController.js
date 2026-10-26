@@ -149,12 +149,8 @@ const sendOtp = async (req, res) => {
     // Store new OTP
     await Otp.create({ email: cleanEmail, otp });
 
-    // Try sending email (fallback to console if email credentials aren't set)
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      await sendOtpEmail(cleanEmail, otp);
-    } else {
-      console.log(`\n============================\n[LOCAL OTP FOR ${cleanEmail}]: ${otp}\n============================\n`);
-    }
+    // Send email using built-in fetch utility
+    await sendOtpEmail(cleanEmail, otp);
 
     return res.status(200).json({
       success: true,
