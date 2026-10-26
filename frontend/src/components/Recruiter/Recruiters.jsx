@@ -5,8 +5,8 @@ import microsoft from "../../assets/logos/microsoft.svg";
 import amazon from "../../assets/logos/amazon.svg";
 import ibm from "../../assets/logos/ibm.svg";
 import accenture from "../../assets/logos/accenture.svg";
-import infosys from "../../assets/logos/infosys.svg";
-import capgemini from "../../assets/logos/capgemini.svg";
+import infosys from "../../assets/logos/Infosys.svg";
+import capgemini from "../../assets/logos/Capgemini.svg";
 import deloitte from "../../assets/logos/deloitte.svg";
 
 const companies = [
@@ -127,7 +127,7 @@ function LogoCard({ company }) {
       <img
         src={company.logo}
         alt={`${company.name} logo`}
-className="max-h-12 max-w-[150px] object-contain grayscale opacity-60 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100"      />
+        className="max-h-12 max-w-[150px] object-contain grayscale opacity-60 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100"      />
 
     </motion.div>
   );
