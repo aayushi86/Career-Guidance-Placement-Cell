@@ -1,41 +1,40 @@
 
+
+const nodemailer = require("nodemailer");
+
 const sendOtpEmail = async (email, otp) => {
-  const apiKey = process.env.RESEND_API_KEY;
-
-  if (!apiKey) {
-    throw new Error("RESEND_API_KEY is missing from environment variables.");
-  }
-
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
-    body: JSON.stringify({
-      from: "Career Guidance <onboarding@resend.dev>",
-      to: [email],
-      subject: "Your Career Guidance Login OTP",
-      html: `
-        <div style="font-family: Arial, sans-serif;">
-          <h2>Career Guidance and Placement Cell</h2>
-          <p>Your one-time password (OTP) is:</p>
-          <h1 style="letter-spacing: 5px;">${otp}</h1>
-          <p>Do not share this code with anyone.</p>
-          <p>If you did not request this code, please ignore this email.</p>
-        </div>
-      `,
-    }),
   });
 
-  const result = await response.json();
+  const mailOptions = {
+    from: `"CareerAI Placement Portal" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: "Your CareerAI Login OTP",
+    html: `
+      <div style="font-family: Arial, sans-serif;">
+        <h2>CareerAI Placement Portal</h2>
+        <p>Your OTP for login is:</p>
+        <h1 style="letter-spacing: 5px;">${otp}</h1>
+        <p>This OTP is valid for 5 minutes. Do not share it with anyone.</p>
+      </div>
+    `,
+  };
 
-  if (!response.ok) {
-    console.error("Resend API error:", result);
-    throw new Error(result.message || "Failed to send OTP email.");
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log("OTP email sent successfully to:", email);
+  } catch (error) {
+    console.error("Nodemailer error:", error.message);
+    throw error;
   }
-
-  return result;
 };
 
-module.exports = sendOtpEmail;
+module.exports = { sendOtpEmail };
+
